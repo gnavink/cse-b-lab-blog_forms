@@ -1,0 +1,186 @@
+dj_blog_forms Github Link: 
+
+1) SETTING UP THE CODEBASE
+   =======================
+
+a) Create & Activate Virtual Environment:
+      
+    i)  Create a folder blog . This folder is called the project root project folder
+        Open Up PowerShell and cd into the project root project folder
+	      cd <path of blog>
+        
+
+    ii)  python -m venv  .venv
+	       Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+	       .\.venv\Scripts\activate.ps1
+
+b) Install Django & Upgrade pip:
+	python -m pip  install django~=5.0.0
+	python -m pip install --upgrade pip
+
+c) Create Django Project:
+	# There is a single dot after django_project
+	django-admin  startproject django_project . 
+	python  manage.py  runserver    
+		
+
+2) CREATING APP & INFORMING DJANGO ABOUT THE APP:
+   =============================================
+
+a)  # blog is the name of the app
+	python  manage.py  startapp blog
+
+b)  # Inform Django about the pages app  
+	Modify django_project/settings.py as below:
+	  INSTALLED_APPS = [
+	    'django.contrib.admin',
+	     ...
+	     ...
+	    'blog',
+	  ]
+
+  python manage.py migrate
+  python manage.py runserver
+
+c)  # Inform Django where to look for routes in the pages app:
+	Copy and paste the contents in django_project/urls.py 
+
+
+  BUILDING BLOG WEB APPLICATION:
+==================================
+3) Building the model:
+    a)   Modify blog/models.py without author pk / __str__()
+            python manage.py makemigrations blog
+            python manage.py migrate
+
+    b) Modify blog/models.py to reflect Foreign-Key relationship
+          python manage.py makemigrations blog
+          python manage.py migrate
+
+4) Create superuser
+    python manage.py createsuperuser
+    gnk / Password123 / test@email.com
+
+    127.0.0.1:8000/admin/ 
+    Login  
+
+5) Making the admin app know about the model
+   a) Modify blog/admin.py - Posts will be seen
+    Modify model to have __str__() to see the title . No need
+    to run migrate
+
+   b) Modify blog/admin.py to see all the fields in the model
+
+6) Create views:
+       Create blog/views.py from github
+
+7) Create URLs:
+       Create blog/urls.py from github
+       Modify djamgo_project/urls.py 
+
+8) Create templates folder
+   Modify djamgo_project/settings.py  
+
+   TEMPLATES = [
+    {
+         ...
+        'DIRS': [BASE_DIR / 'templates'],
+    },
+  ]
+
+9) Create html files
+     Add base.html, home.html
+
+10) Run Django Server     
+        python manage.py runserver
+
+11) Add STATIC Files:
+      a)   Create static folder
+           Modify djamgo_project/settings.py
+               STATICFILES_DIRS = [BASE_DIR / "static"]
+      b)    Create css folder inside static
+              Add css/base.css only the header h1
+
+12) Modify base.html to add css/base.css
+
+13) Modify 
+      - base.css to add everything. 
+      - base.html to add fonts
+      Run Django Server     
+        python manage.py runserver                               
+    
+   Check whether the home page lists all your posts   
+		
+ MODIFYING VIEWS TO CLASS BASED VIEWS
+  =============================================
+
+14) 
+ List View: Create generic class based view (GCBV) function post_list :
+      -  Modify views.py 
+      -  Modify urls.py
+      -  Modify home.html - Context is now post_list
+
+15) Detail View: Create generic class based view (GCBV) function post_detail :
+      -  Modify views.py 
+      -  Modify urls.py
+      -  Create post_detail.html
+
+16) Create View: 
+      - Modify views.py
+      -  Modify urls.py
+      -  Create post_new.html
+      -  Modify base.html to have a new link for creation
+
+17) Update View: 
+      - Modify views.py
+      - Modify urls.py
+      - Create post_edit.html
+      - Modify  post_detail.html to have a new link for updation
+
+18) Delete View: 
+      - Modify views.py
+      - Modify urls.py
+      - Create post_delete.html
+      - Modify  post_detail.html to have a new link for deletion
+
+19) Providing Login Feature:
+     a) mkdir templates/registration
+        Add login.html inside templates/registration. Copy from github
+        Modify django_project/settings.py to have 
+           LOGIN_REDIRECT_URL = "home"  
+           LOGOUT_REDIRECT_URL = "home" 
+        Modify django_project/urls.py to have route for accounts/
+        Modify base.html to check whether user is logged in. If so,
+        greet the user. If noy, ask him to login in the else tag
+ 
+20) Providing Logout Feature:
+
+     a)
+	Modify django_project/settings.py to have 
+           LOGOUT_REDIRECT_URL = "home" 
+     b)
+      Create logout feature by modifying base.html with the help of
+        <form></form>
+        Reload home page , one shall see the logout button
+
+21) Creating signup functionality:
+
+     a) Create accounts app: 
+          python manage.py startapp accounts
+          Modify django_project/settings.py, django_project/urls.py
+          Add accounts/urls.py from github
+
+     b)   Add view function: 
+             Modify accounts/views.py from github
+
+     c)   Add the templates 
+             - Add registration/signup.html 
+             Access 127.0.0.1/accounts/signup/
+             Better to modify base.html to have SignUp link
+             Create a new user and check whether login works
+  
+      
+
+
+
+             
